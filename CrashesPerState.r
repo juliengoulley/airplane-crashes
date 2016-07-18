@@ -2,19 +2,21 @@
 # The environment is defined by the kaggle/rstats docker image: https://github.com/kaggle/docker-rstats
 # For example, here's several helpful packages to load in 
 
+install.packages(c("Rcpp", "readr"))
+
 library(ggplot2) # Data visualization
 library(readr) # CSV file I/O, e.g. the read_csv function
 
 # Input data files are available in the "../input/" directory.
 # For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory
 
-setwd("D:\\DataScience\\airplane-crashes")
+setwd("/Users/Julien/Documents/github/airplane-crashes/")
 # system("ls ../input")
 
 # Any results you write to the current directory are saved as output.
 library(ggplot2)
 
-crash_data = read.csv("3-Airplane_Crashes_Since_1908.txt")
+crash_data = read.csv("3-Airplane_Crashes_Since_1908.csv")
 
 # Create a utility function to get the crash year
 extractCrashYear <- function(date) {
@@ -40,9 +42,11 @@ crash_data$Crash_Year <- as.factor(Crash_Year)
 crash_data$Crash_Year <-as.factor(crash_data$Crash_Year)
 
 # Plot the total number of crashes in each state.
-ggplot(subset(crash_data,Crash_Year != ""), aes(x = Crash_Year)) +
+ggplot(subset(crash_data,Crash_Year != ""), aes(x = as.numeric(as.character(Crash_Year)))) +
   stat_count(width = 0.5) +
-  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
+  scale_x_continuous(limits = c(1900,  2010)) +
+  theme(axis.text.x=element_text(angle=0,hjust=0.5,vjust=0)) +
   ggtitle("Crashes per Year") +
   xlab("Year") +
   ylab("Total Crashes")
+
