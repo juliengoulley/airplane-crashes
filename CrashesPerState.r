@@ -40,9 +40,10 @@ crash_data$Crash_Year <- as.factor(Crash_Year)
 crash_data$Crash_Year <-as.factor(crash_data$Crash_Year)
 
 # Plot the total number of crashes in each state.
-ggplot(subset(crash_data,Crash_Year != ""), aes(x = Crash_Year)) +
+ggplot(subset(crash_data,Crash_Year != ""), aes(x = as.numeric(as.character(Crash_Year)))) +
   stat_count(width = 0.5) +
-  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
+  scale_x_continuous(breaks=c(1:250)*10) +
+  theme(axis.text.x=element_text(angle=0,hjust=0.5,vjust=0)) +
   ggtitle("Crashes per Year") +
   xlab("Year") +
   ylab("Total Crashes")
